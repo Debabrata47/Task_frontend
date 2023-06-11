@@ -12,7 +12,7 @@ export default function Chat(){
     const socket = useRef()
     const scrollRef= useRef()
     const [arrivalMessage, setArrivalMessage] = useState(null);
-    const [messages,setMessages] = useState([])
+    const [messages,setMessages] = useState(["Hie","Hello","How can i help you"])
     const admin_id = "6482d627ffd2ac3da8f7c410"
     const navigate = useNavigate();
     const info = JSON.parse(localStorage.getItem('chat-app-user'))
