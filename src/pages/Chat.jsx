@@ -67,7 +67,7 @@ async function getMsg(){
         from: info._id,
          to: admin_id,
     })
-    setMessages(response.data)
+    setMessages({...response.data,...messages})
 }
 useEffect(()=>{
     if(!localStorage.getItem("chat-app-user")){
