@@ -16,7 +16,13 @@ export default function Chat() {
   const socket = useRef();
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { message: "Hi there!👋" },
+    { message: "I'm Wysa-an AI chatbot built by therapists." },
+    { message: "I'm here to understand your concerns and connect you with the best resources available to support you."},
+    { message: "Can i help?"},
+    
+  ]);
   const admin_id = "6482d627ffd2ac3da8f7c410";
   const navigate = useNavigate();
   const info = JSON.parse(localStorage.getItem("chat-app-user"));
@@ -61,8 +67,13 @@ export default function Chat() {
       from: info._id,
       to: admin_id,
     });
-    setMessages(response.data);
+    setMessages((prev) => {
+      return [...prev, ...response.data];
+    });
   }
+
+ 
+
   useEffect(() => {
     if (!localStorage.getItem("chat-app-user")) {
       navigate("/");
@@ -126,45 +137,45 @@ export default function Chat() {
             <LogoutIcon sx={{ color: "black" }} />
           </IconButton>
         </Stack>
-       <Stack sx={{flexDirection:{md:"row",xs:"column"},gap:"16px"}}>
-       <Box sx={{ width: { sm: "600px", xs: "320px" } }}>
-          <Stack
-            gap="8px"
-            sx={{ height: "60vh", overflowY: "scroll", marginBottom: "20px" }}
-          >
-            {messages.map((n) => {
-              return (
-                <Box
-                  ref={scrollRef}
-                  key={uuidv4()}
-                  sx={{
-                    padding: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: n.fromself ? "flex-end" : "flex-start",
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    color="initial"
+        <Stack sx={{ flexDirection: { md: "row", xs: "column" }, gap: "16px" }}>
+          <Box sx={{ width: { sm: "600px", xs: "320px" } }}>
+            <Stack
+              gap="8px"
+              sx={{ height: "60vh", overflowY: "scroll", marginBottom: "20px" }}
+            >
+              {messages.map((n) => {
+                return (
+                  <Box
+                    ref={scrollRef}
+                    key={uuidv4()}
                     sx={{
-                      padding: "16px",
-                      background: "white",
-                      borderRadius: "16px",
-                      maxWidth: "250px",
-                      wordBreak: "break-word",
+                      padding: "6px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: n.fromself ? "flex-end" : "flex-start",
                     }}
                   >
-                    {n.message}
-                  </Typography>
-                </Box>
-              );
-            })}
-          </Stack>
-          <ChatInput handleSendMsg={handleSendMsg} />
-        </Box>
-        <Avatar/>
-       </Stack>
+                    <Typography
+                      variant="body1"
+                      color="initial"
+                      sx={{
+                        padding: "16px",
+                        background: "white",
+                        borderRadius: "16px",
+                        maxWidth: "250px",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {n.message}
+                    </Typography>
+                  </Box>
+                );
+              })}
+            </Stack>
+            <ChatInput handleSendMsg={handleSendMsg} />
+          </Box>
+          <Avatar />
+        </Stack>
       </Box>
     </>
   );
